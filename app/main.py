@@ -5,7 +5,7 @@ import json
 import os
 import openai
 import json
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 origins = [
@@ -24,15 +24,15 @@ app.add_middleware(
 @app.get("/")
 def root():
     team_members=[{1:"Santosh"},{2:"Datta"},{3:"Deeksha"},{4:"Amit"}]
-    return {"Presenting": "GH hackathon",
-    "Team":"Developers",
+    return {"Presenting": "GH Innovation Con",
+    "Team":"Team 3",
     "About":"Extract TRF data from pdf and return json , and also have capability of prompt engineering",
-    "Github Repository": "https://xyz.com",
+    "Github Repository": "https://github.com/gh-org-data-platform/hackathon-072023-trf-reading.git",
     "Team_members":team_members}
 
 
 @app.post("/uploadfile/")
-def create_upload_file(file: UploadFile,question:str):
+def create_upload_file(question:str,file: UploadFile = File(...)):
     answer=""
     split_question = question.split(",")
     data=[]
@@ -46,7 +46,7 @@ def create_upload_file(file: UploadFile,question:str):
     return {"filename": file.filename,'data':data}
 
 @app.post("/uploadfile/openai")
-def create_upload_file(file: UploadFile,question:str):
+def create_upload_file(question:str,file: UploadFile = File(...)):
     answer=""
     split_question = question.split(",")
 
@@ -70,7 +70,7 @@ def extract_data_lazarus(file_data,question_main):
     url = "https://api.lazarusforms.com/api/forms/generic"
     print("Starts reading file from lazarus api ,,,,")
     payload={}
-    openai.api_key = "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"
+    openai.api_key = "xx"
     files=[('file',('file_name',file_data.file,'application/octet-stream'))]
     headers = {
     'orgId': 'cd6a73a119c44419ad',
